@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('shared/links') %>
+</head>
+<body>
+    <%- include('shared/navbar',{isAuth}) %>
+    <div class="container d-flex justify-content-evenly align-items-center mt-5">
+        <h6>File Name : <%= fileName %></h6>
+        
+        <a href="http://localhost:8000/giveFile?fileName=<%= fileName %>"><button class="btn btn-primary">Download</button></a>
+    </div>
+
+    <script src="/JS/download.js"></script>
+</body>
+</html>

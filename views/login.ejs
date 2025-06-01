@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/CSS/style.css">
+    <%- include('shared/links') %>
+</head>
+<body style="background-color: #0d6fb8;">
+
+    <div class="d-flex justify-content-center mt-5">
+        <div class="d-flex flex-column align-items-center loginBox">
+            
+        <h3>File Transfer</h3>
+        <h6 class="mt-3">Log - in to Your Account</h6>
+
+        <form>
+            <input type="email" id="email" placeholder="your@example.com" class="form-control" style="height: 50px; width: 25vw; border-radius: 0;">
+
+            <input type="password" id="password" placeholder="Password" class="form-control mt-3" style="height: 50px; width: 25vw; border-radius: 0;"> 
+            <button class="btn btn-warning mt-3" id="login" style="width: 100%; border-radius: 0 !important;">Log - In</button>
+        </form>
+
+        <p>By clicking on Sign In you also agree to our Terms of Use and Privacy Policy</p>
+        
+        <h6><a href="">Forget Password?</a></h6>
+        <h6>Don't Have an Account? <a href="http://localhost:8000/register">Register</a></h6>
+        </div>
+    </div>
+
+     
+
+<script src="/JS/login.js"></script>
+</body>
+</html>

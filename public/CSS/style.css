@@ -1,0 +1,113 @@
+.section1Bg{
+    background-image: url("/images/sector 1 backdrop.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    position: fixed;
+}
+.sec1whiteBox{
+    position: absolute;
+    background-image: linear-gradient(
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0.9) 30%, 
+    rgba(255, 255, 255, 0.7) 50%, 
+    rgba(255, 255, 255, 0)
+  );
+    width: 100%;
+    height: 600px;
+    z-index: 0;
+    position: fixed;
+}
+.sec1content{
+    position: relative;
+    padding: 0 300px;
+    z-index: 1;
+    text-align: center;
+    margin-top: 120px;
+}
+.bodyFont{
+    font-family: "Cal Sans", sans-serif;
+    font-weight: 400;
+    font-style: bold;
+}
+.loginBox{
+    width: 30vw;
+    background-color: white;
+    padding: 50px 50px;
+}
+.loginBox p{
+    font-size: 12px;
+    text-align: center;
+    margin-top: 7px;
+}
+a{
+    text-decoration: none !important;
+}
+li{
+    cursor: pointer;
+}
+.matchSquad{
+    width: 100%;
+    height: 140px;
+    background-color:  #28a745;
+    animation: fadeIn 1s ease forwards;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.teamLogo{
+    height: 65px;
+    width: 65px;
+    background-color: #333333;
+    color: #fddd00;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.teamLogo h3{
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+}
+.Squad{
+    background-color: #fafafa;
+    color: #333333;
+    padding: 5px 35px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+svg{
+    cursor: pointer !important;
+}
+.playerbox{
+    background-color: #084778;
+    padding: 10px 20px;
+    margin: 10px 0;
+    color: white;
+}
+.captainCircle{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: white;
+    font-weight: bold;
+    color: #333333;
+    font-size: 15px;
+    cursor: pointer;
+}
+.captainCircle:hover{
+    background-color: rgb(230, 230, 230);
+}

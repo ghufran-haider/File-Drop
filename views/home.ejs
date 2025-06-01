@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/CSS/style.css" />
+    <%- include('shared/links') %>
+  </head>
+  <body>
+    <!-- navbar -->
+    <%- include('shared/navbar',{isAuth}) %>
+    <% if(isAuth){ %>
+      <div class="container">
+        <form class="d-flex gap-3"  onsubmit="uplFile(event)">
+          <input type="file" name="uploadFile" class="form-control">
+          <button class="btn btn-primary" type="submit">Upload</button>
+        </form>
+        <h6 style="margin-top: 10px;">Download Link : <span id="link" style="color: blue !important;"></span></h6>
+      </div>
+      <% } else { %>
+        <div class="container">
+          Login to send file
+        </div>
+      <% } %>
+    <script src="/JS/home.js"></script>
+  </body>
+</html>
