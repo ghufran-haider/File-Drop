@@ -6,22 +6,14 @@ const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
-const fileupload = require("express-fileupload");
-const { isAbsolute } = require("path");
+const multer  = require('multer')
+const upload = multer({ dest: 'public/uploads/' })
 
 
 const SALTROUNDS = 5;
 const SECRET = "I AM BATMAN";
 let connection;
 const PORT = 8000;
-
-app.use(fileupload({
-    limits : {
-        filesize : 10 * 1024 * 1024,
-        files : 1
-    },
-    createParentPath : true
-}));
 
 function AuthMiddleware(req, res, next) {
   try {
@@ -49,29 +41,26 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
 app.listen(PORT, async function () {
   try {
     connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Ghufran@1234",
-    database: "filetransfer",
-  });
-  
-  console.log(`Server start listining on PORT : ${PORT}`);
+      host: "localhost",
+      user: "root",
+      password: "Ghufran@1234",
+      database: "filetransfer",
+    });
+
+    console.log(`Server start listining on PORT : ${PORT}`);
   } catch (error) {
-    console.log(error.message); 
+    console.log(error.message);
   }
 });
 
-app.get("/",AuthMiddleware, async function (req, res) {
+app.get("/", AuthMiddleware, async function (req, res) {
   let userId = req.userId;
-  console.log(userId);
-  
   res.render("home", {
-    isAuth: req.isAuth
-   });
+    isAuth: req.isAuth,
+  });
 });
 app.get("/login", function (req, res) {
   res.render("login");
@@ -80,43 +69,69 @@ app.get("/register", function (req, res) {
   res.render("register");
 });
 
-app.get("/download",AuthMiddleware,function (req,res) {
-    let fileName = req.query.filelocation;
-    res.render("download",{
-        isAuth : req.isAuth,
-        fileName
-    })    
-})
-app.get("/giveFile",function (req,res) {
-    let fileName = req.query.fileName;
-    console.log(fileName);
-    res.download(__dirname + "/public/uploads/" + fileName,'FileTransfer.png');
-})
+app.get("/download", AuthMiddleware, function (req, res) {
+  let fileName = req.query.filelocation;
+  res.render("download", {
+    isAuth: req.isAuth,
+    fileName,
+  });
+});
+app.get("/giveFile", function (req, res) {
+  let fileName = req.query.fileName;
+  res.download(__dirname + "/public/uploads/" + fileName, "FileTransfer.png");
+});
 
-app.post("/upload",AuthMiddleware,function (req,res) {
-    try {
-        let userFile = req.files.file;
-        if(userFile){
-            let userId = req.userId;
-            let fileName = __dirname + "/public/uploads/" + userId + userFile.name;
-            userFile.mv(fileName,function () {
-                let link = "http://localhost:8000/download?filelocation=" + userId + userFile.name;
-                res.send(link);
-            })
-        }else{
-            throw {
-                message : "File Not Found"
-            }
+app.post("/upload", upload.array("file",3),AuthMiddleware, function (req, res) {
+  try {
+    let userFile = req.files;
+    let userId = req.userId;
+    let linksArr = [];
+
+    userFile.forEach(function (element) {
+        let file = {
+          link : "http://localhost:8000/download?flName=" + userId + element.filename,
+          filename : element.originalname
         }
-    } catch (error) {
-        res.send(error.message)
-    }
-})
+        linksArr.push(file);
+    })
+
+    res.send(linksArr);
+    // let userId = req.userId;
+    // let linksArr = [];
+    // if (userFile.length == undefined) {
+
+    //   let fileName = __dirname + "/public/uploads/" + userId + userFile.name;
+    //   userFile.mv(fileName, function () {
+    //     let link = "http://localhost:8000/download?filelocation=" + userId + userFile.name;
+    //       linksArr.push(link);
+    //   });
+    //   res.send(linksArr);
+    // } else if (userFile.length != undefined) {
+
+    //   userFile.forEach(function (currentFile) {
+    //     let fileName = __dirname + "/public/uploads/" + userId + currentFile.name;
+    //     currentFile.mv(fileName, function () {
+    //       let link = "http://localhost:8000/download?filelocation=" + userId + currentFile.name;
+    //         linksArr.push(link);
+    //     });
+    //   })
+
+    //   console.log(linksArr);
+    //   res.send(linksArr);
+    // } else {
+    //   throw {
+    //     message: "File Not Found",
+    //   };
+    // }
+  } catch (error) {
+    res.send(error.message);
+  }
+});
 
 app.post("/login", async function (req, res) {
   try {
-    console.log(req.body.email ,req.body.password);
-    
+    console.log(req.body.email, req.body.password);
+
     if (req.body.email && req.body.password) {
       const email = req.body.email;
       const password = req.body.password;
@@ -136,7 +151,7 @@ app.post("/login", async function (req, res) {
           )
         );
         console.log("Login");
-        
+
         res.send("Login Successfull");
       } else {
         throw {
@@ -155,16 +170,19 @@ app.post("/login", async function (req, res) {
   }
 });
 
-app. post("/register", async function (req, res) {
+app.post("/register", async function (req, res) {
   try {
     // Getting Credentials from Request Body .email , req.body.password , req.body.fullname , req.body.mobile , req.body.State
     console.log(req.body);
-    
-    if (req.body.email && req.body.password && req.body.fullname ) {
+
+    if (req.body.email && req.body.password && req.body.fullname) {
       console.log("in register");
-      const {fullname,email,password} = req.body;
-      let response = await connection.query("select * from user where email = ?",[email]);
-      if(response[0].length == 0){
+      const { fullname, email, password } = req.body;
+      let response = await connection.query(
+        "select * from user where email = ?",
+        [email]
+      );
+      if (response[0].length == 0) {
         await connection.query(
           `INSERT INTO user (username, email, password_hash)
           VALUES (?,?,?)`,
@@ -173,10 +191,10 @@ app. post("/register", async function (req, res) {
         res.send({
           message: "Signup Successfull",
         });
-      }else{
+      } else {
         throw {
           message: "Email Already exist",
-        };  
+        };
       }
     } else {
       throw {
@@ -185,7 +203,7 @@ app. post("/register", async function (req, res) {
     }
   } catch (error) {
     console.log(error.message);
-    
+
     res.status(400).send({
       message: error.message ? error.message : "Something went wrong",
     });

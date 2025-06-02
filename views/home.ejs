@@ -10,12 +10,29 @@
     <!-- navbar -->
     <%- include('shared/navbar',{isAuth}) %>
     <% if(isAuth){ %>
-      <div class="container">
-        <form class="d-flex gap-3"  onsubmit="uplFile(event)">
-          <input type="file" name="uploadFile" class="form-control">
-          <button class="btn btn-primary" type="submit">Upload</button>
+      <div class="mainSecBg">
+        <div style="width: 20vw; background-color: white; padding: 60px 20px; border-radius: 20px;">
+          <form class="d-flex gap-3 flex-column align-items-center"  onsubmit="uplFile(event)">
+
+            <div class="d-flex align-items-center gap-2">
+              <label for="uploadFile" class="custom-icon-label p-0">+</label>
+              <h4>Add File</h4>
+              <input type="file" id="uploadFile" multiple class="form-control d-none">
+            </div>
+            <div id="files">
+              <p id="fileNameDisplay">No file chosen</p>
+            </div>
+          <input type="text" class="form-control" placeholder="Message" style="border-radius: 0; margin-top: 50px; height: 50px;">
+          <button class="btn btn-grey" type="submit">Transfer</button>
         </form>
-        <h6 style="margin-top: 10px;">Download Link : <span id="link" style="color: blue !important;"></span></h6>
+        </div>
+        
+        <div style="background-color: white; padding: 10px 20px; margin: 10px;" class="d-none" id="downloadLink">
+          <h6>
+            Sharable Download Link
+          </h6>
+        </div>
+
       </div>
       <% } else { %>
         <div class="container">

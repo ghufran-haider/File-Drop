@@ -111,3 +111,43 @@ svg{
 .captainCircle:hover{
     background-color: rgb(230, 230, 230);
 }
+.mainSecBg{
+    background-image: url("/IMG/Main Background Image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 100px 10% 50px 10%;
+}
+ .custom-icon-label , .copy-custom-icon-label {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #084778;
+      color: white;
+      font-size: 25px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+}
+.copy-custom-icon-label{
+    width: 25px;
+    height: 25px;
+    font-size: 15px;
+}
+.custom-icon-label:hover {
+    background-color: #062c49;
+}
+p{
+    padding: 0;
+    margin: 0 !important;
+}
+.btn-grey{
+    background-color: rgb(204, 204, 204) !important;
+    border-radius: 0 !important;
+    font-weight: bold !important;
+    width: 100%;
+}
+.btn-grey:hover{
+    background-color: rgb(131, 131, 131) !important;
+}
